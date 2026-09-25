@@ -47,6 +47,10 @@ const Dashboard = () => {
                 </>
             )}
 
+            <button onClick={() => navigate("/farms")}>
+                🌾 My Farms
+            </button>
+
             <button onClick={handleLogout}>
                 Logout
             </button>
