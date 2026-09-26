@@ -1,10 +1,11 @@
 import express from "express";
-import { createCrop, getCropByFarm, getCropById,updateCrop,deleteCrop } from "../controllers/cropController.js";
+import { createCrop, getCropByFarm, getCropById,updateCrop,deleteCrop,getCropOptions } from "../controllers/cropController.js";
 import {authMiddleware} from "../middleware/authMiddleware.js";
 
 const routes = express.Router();
 
 routes.post("/",authMiddleware,createCrop);
+routes.get("/options",authMiddleware,getCropOptions)
 routes.get("/farm/:id",authMiddleware,getCropByFarm);
 routes.get("/:id",authMiddleware,getCropById);
 routes.put("/:id",authMiddleware,updateCrop);

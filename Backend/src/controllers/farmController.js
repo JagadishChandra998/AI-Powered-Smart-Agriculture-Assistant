@@ -145,3 +145,24 @@ export const deleteFarm = async (req, res) => {
         })
     }
 };
+
+export const getFarmOptions = async (req, res) =>{
+    try{
+
+        const soilType = Farm.schema.path("soilType").enumValues;
+
+        const irrigationType = Farm.schema.path("irrigationType").enumValues;
+
+        res.status(200).json({
+            soilType,
+            irrigationType
+        });
+    }
+    catch(error){
+        console.error("Get farms option error", error.message);
+
+        res.status(500).json({
+            message: "Server Error"
+        })
+    }
+}

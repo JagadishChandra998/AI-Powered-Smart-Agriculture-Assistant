@@ -180,3 +180,24 @@ export const deleteCrop = async (req, res) => {
         });
     }
 };
+
+export const getCropOptions = async (req, res) =>{
+    try{
+
+        const growthStage = Crop.schema.path("growthStage").enumValues;
+
+        const season = Crop.schema.path("season").enumValues;
+
+        res.status(200).json({
+            growthStage,
+            season
+        });
+    }
+    catch(error){
+        console.error("get crop option error:", error.message);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+}

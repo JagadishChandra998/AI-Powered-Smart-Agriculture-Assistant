@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "./Farms.css";
 
 const Farms = () => {
+
+    const navigate = useNavigate();
+
     const [farms, setFarms] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -15,6 +19,11 @@ const Farms = () => {
         soilType: "Loamy",
         irrigationType: "Rainfed"
     });
+
+    const [farmOptions, setFarmOptions] = useState({
+        soilType: [],
+        irrigationType: []
+    })
 
     // Get farms
     const fetchFarms = async () => {
@@ -33,8 +42,24 @@ const Farms = () => {
         }
     };
 
+    const fatchFarmOption = async () => {
+        try {
+
+            const response = await api.get("/farms/options");
+
+            setFarmOptions(response.data);
+        }
+        catch (error) {
+            console.error(
+                "Fetch farm options error:",
+                error.response?.data || error.message
+            );
+        }
+    }
+
     useEffect(() => {
         fetchFarms();
+        fatchFarmOption();
     }, []);
 
     // Handle input
@@ -216,34 +241,20 @@ const Farms = () => {
                                     name="soilType"
                                     value={formData.soilType}
                                     onChange={handleChange}
+                                    required
                                 >
-                                    <option value="Loamy">
-                                        Loamy
-                                    </option>
+                                
+                                    {
+                                        farmOptions.soilType.map((type) => (
+                                            <option
+                                                key={type}
+                                                value={type}
+                                            >
+                                                {type}
+                                            </option>
+                                        ))
+                                    }
 
-                                    <option value="Clay">
-                                        Clay
-                                    </option>
-
-                                    <option value="Sandy">
-                                        Sandy
-                                    </option>
-
-                                    <option value="Silt">
-                                        Silt
-                                    </option>
-
-                                    <option value="Black">
-                                        Black
-                                    </option>
-
-                                    <option value="Red">
-                                        Red
-                                    </option>
-
-                                    <option value="Other">
-                                        Other
-                                    </option>
                                 </select>
                             </div>
 
@@ -257,30 +268,20 @@ const Farms = () => {
                                     name="irrigationType"
                                     value={formData.irrigationType}
                                     onChange={handleChange}
+                                    required
                                 >
-                                    <option value="Rainfed">
-                                        Rainfed
-                                    </option>
+                              
+                                    {
+                                        farmOptions.irrigationType.map((watering) => (
+                                            <option
+                                            key={watering}
+                                            value={watering}
+                                            >
+                                                {watering}
+                                            </option>
+                                        ))
+                                    }
 
-                                    <option value="Borewell">
-                                        Borewell
-                                    </option>
-
-                                    <option value="Canal">
-                                        Canal
-                                    </option>
-
-                                    <option value="Drip">
-                                        Drip
-                                    </option>
-
-                                    <option value="Sprinkler">
-                                        Sprinkler
-                                    </option>
-
-                                    <option value="Other">
-                                        Other
-                                    </option>
                                 </select>
                             </div>
 
@@ -401,6 +402,15 @@ const Farms = () => {
                                 onClick={() => handleEdit(farm)}
                             >
                                 ✏️ Edit Farm
+                            </button>
+
+                            <button
+                                className="crops-btn"
+                                onClick={() =>
+                                    navigate(`/farms/${farm._id}/crops`)
+                                }
+                            >
+                                🌱 View Crops
                             </button>
 
                             <button

@@ -52,7 +52,7 @@ const cropSchema = new mongoose.Schema(
                 "Flowering",
                 "Fruiting",
                 "Maturity",
-                "Harvest"
+                "Harvest" 
             ]
         },
 

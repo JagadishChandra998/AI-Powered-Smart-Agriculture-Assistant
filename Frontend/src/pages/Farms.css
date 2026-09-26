@@ -230,6 +230,22 @@
     background: #ffebee;
 }
 
+.crops-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.crops-btn:hover {
+    background: #c8e6c9;
+}
+
 
 /* EMPTY */
 
