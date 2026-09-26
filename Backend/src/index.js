@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import farmRoutes from "./routes/farmRoutes.js"
+import cropRoutes from "./routes/cropRoutes.js";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ connectDB();
 
 app.use("/api/auth",authRoutes);
 app.use("/api/farms",farmRoutes);
+app.use("/api/crops",cropRoutes);
 
 app.get("/",(req, res) =>{
     res.json({
