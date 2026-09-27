@@ -1,0 +1,323 @@
+.farm-details-page {
+    min-height: 100vh;
+    padding: 30px;
+    background: #f5f8f4;
+}
+
+
+/* HEADER */
+
+.farm-details-header {
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    border: none;
+    background: transparent;
+    color: #2e7d32;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* FARM CARD */
+
+.farm-info-card {
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+
+.farm-title-section {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+
+.farm-big-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: #e8f5e9;
+
+    font-size: 38px;
+}
+
+
+.farm-title-section h1 {
+    margin: 0 0 7px;
+    font-size: 30px;
+}
+
+
+.farm-title-section p {
+    margin: 0;
+    color: #6b7280;
+}
+
+
+/* INFORMATION */
+
+.farm-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+
+.info-item {
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background: #f7faf7;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.info-item span {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+.info-item strong {
+    font-size: 17px;
+    color: #222;
+}
+
+
+/* ACTIONS */
+
+.farm-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+
+.edit-farm-btn,
+.add-crop-btn {
+    padding: 11px 18px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.edit-farm-btn {
+    background: #eeeeee;
+    color: #333;
+}
+
+
+.add-crop-btn {
+    background: #2e7d32;
+    color: white;
+}
+
+
+.add-crop-btn:hover {
+    background: #256628;
+}
+
+
+/* CROPS SECTION */
+
+.farm-crops-section {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.06);
+}
+
+
+.section-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+
+.section-header h2 {
+    margin: 0 0 7px;
+}
+
+
+.section-header p {
+    margin: 0;
+
+    color: #6b7280;
+}
+
+
+/* CROP GRID */
+
+.farm-crops-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(250px, 1fr)
+        );
+
+    gap: 18px;
+}
+
+
+.farm-crop-card {
+    padding: 22px;
+
+    border-radius: 14px;
+
+    border: 1px solid #e5e7eb;
+
+    background: #fff;
+}
+
+
+.crop-card-icon {
+    font-size: 38px;
+
+    margin-bottom: 10px;
+}
+
+
+.farm-crop-card h3 {
+    margin: 0 0 15px;
+}
+
+
+.farm-crop-card p {
+    margin: 8px 0;
+
+    color: #555;
+}
+
+
+/* EMPTY */
+
+.no-crops {
+    text-align: center;
+
+    padding: 50px 20px;
+}
+
+
+.no-crops > div {
+    font-size: 55px;
+}
+
+
+.no-crops h3 {
+    margin: 15px 0 8px;
+}
+
+
+.no-crops p {
+    color: #777;
+
+    margin-bottom: 20px;
+}
+
+
+/* ERROR */
+
+.farm-error {
+    padding: 15px;
+
+    margin-bottom: 20px;
+
+    border-radius: 10px;
+
+    background: #ffebee;
+
+    color: #c62828;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+    .farm-info-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .farm-details-page {
+        padding: 18px;
+    }
+
+
+    .farm-info-card,
+    .farm-crops-section {
+        padding: 20px;
+    }
+
+
+    .farm-title-section {
+        align-items: flex-start;
+    }
+
+
+    .farm-title-section h1 {
+        font-size: 24px;
+    }
+
+
+    .farm-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .farm-actions {
+        flex-direction: column;
+    }
+
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+}

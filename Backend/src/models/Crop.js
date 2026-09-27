@@ -25,6 +25,12 @@ const cropSchema = new mongoose.Schema(
             trim: true
         },
 
+        area: {
+            type: Number,
+            required: true,
+            min: 0
+        },
+
         sowingDate: {
             type: Date,
             required: true
@@ -52,7 +58,7 @@ const cropSchema = new mongoose.Schema(
                 "Flowering",
                 "Fruiting",
                 "Maturity",
-                "Harvest" 
+                "Harvest"
             ]
         },
 
@@ -72,7 +78,7 @@ const cropSchema = new mongoose.Schema(
 
     },
     {
-        timestamps:true
+        timestamps: true
     }
 
 );

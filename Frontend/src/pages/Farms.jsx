@@ -243,7 +243,7 @@ const Farms = () => {
                                     onChange={handleChange}
                                     required
                                 >
-                                
+
                                     {
                                         farmOptions.soilType.map((type) => (
                                             <option
@@ -270,12 +270,12 @@ const Farms = () => {
                                     onChange={handleChange}
                                     required
                                 >
-                              
+
                                     {
                                         farmOptions.irrigationType.map((watering) => (
                                             <option
-                                            key={watering}
-                                            value={watering}
+                                                key={watering}
+                                                value={watering}
                                             >
                                                 {watering}
                                             </option>
@@ -396,6 +396,15 @@ const Farms = () => {
                                 </div>
 
                             </div>
+
+                            <button
+                                className="details-btn"
+                                onClick={() =>
+                                    navigate(`/farms/${farm._id}`)
+                                }
+                            >
+                                👁️ View Details
+                            </button>
 
                             <button
                                 className="edit-btn"

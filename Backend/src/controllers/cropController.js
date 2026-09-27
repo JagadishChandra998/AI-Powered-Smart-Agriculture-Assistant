@@ -4,16 +4,16 @@ import Farm from "../models/Farm.js";
 export const createCrop = async (req, res) => {
     try {
 
-        const { farmId, cropName, variety, sowingDate, season, growthStage, expectedHarvestDate } = req.body;
+        const { farmId, cropName, variety, area, sowingDate, season, growthStage, expectedHarvestDate } = req.body;
 
-        if (!farmId || !cropName || !variety || !sowingDate || !season || !growthStage) {
+        if (!farmId || !cropName || !variety || !area || !sowingDate || !season || !growthStage) {
             return res.status(400).json({
                 message: "Required crop fields are missing"
             });
         }
 
         const farm = await Farm.findOne({
-            _id:farmId,
+            _id: farmId,
             farmerId: req.user.userId
         });
 
@@ -23,11 +23,33 @@ export const createCrop = async (req, res) => {
             });
         }
 
+        const existingCrops = await Crop.find({
+            farmId,
+            farmerId: req.user.userId
+        });
+
+        const usedArea = existingCrops.reduce(
+            (total, crop) => total + (crop.area || 0),
+            0
+        );
+
+        const availableArea = farm.area - usedArea;
+
+        if (Number(area) > availableArea) {
+            return res.status(400).json({
+                message: "Crop area exceeds available farm area",
+                farmArea: farm.area,
+                usedArea,
+                availableArea
+            });
+        }
+
         const crop = await Crop.create({
             farmerId: req.user.userId,
             farmId,
             cropName,
             variety,
+            area,
             sowingDate,
             season,
             growthStage,
@@ -71,7 +93,7 @@ export const getCropByFarm = async (req, res) => {
             createdAt: -1
         });
         res.status(200).json({
-            message:"get crop successfully",
+            message: "get crop successfully",
             crops
         });
 
@@ -117,16 +139,69 @@ export const getCropById = async (req, res) => {
 export const updateCrop = async (req, res) => {
     try {
 
+        const { cropName, variety, area, sowingDate, season, growthStage, expectedHarvestDate } = req.body;
+
+        const existingCrop = await Crop.findOne({
+            _id: req.params.id,
+            farmerId: req.user.userId
+        });
+
+        if (!existingCrop) {
+            return res.status(404).json({
+                message: "Crop not found"
+            })
+        };
+
+        const farm = await Farm.findOne({
+            _id: existingCrop.farmId,
+            farmerId: req.user.userId
+        });
+
+        if (!farm) {
+            return res.status(404).json({
+                message: "Farm not found"
+            });
+        };
+
+        const otherCrops = await Crop.find({
+            farmId: existingCrop.farmId,
+            farmerId: req.user.userId,
+            _id: { $ne: existingCrop._id }
+        })
+
+        const usedArea = otherCrops.reduce(
+            (total, crop) => total + (crop.area || 0), 0
+        );
+
+        const availableArea = farm.area - usedArea;
+
+        if (Number(area) > availableArea) {
+            return res.status(400).json({
+                message: "Crop area exceeds available farm area",
+                farmArea: farm.area,
+                usedArea,
+                availableArea
+            });
+        };
+
         const crop = await Crop.findOneAndUpdate(
             {
                 _id: req.params.id,
                 farmerId: req.user.userId
             },
-            req.body,
+            {
+                cropName,
+                variety,
+                area,
+                sowingDate,
+                season,
+                growthStage,
+                expectedHarvestDate
+            },
             {
                 // new:true,
-                returnDocument:"after",
-                runValidators:true
+                returnDocument: "after",
+                runValidators: true
             }
         );
 
@@ -181,8 +256,8 @@ export const deleteCrop = async (req, res) => {
     }
 };
 
-export const getCropOptions = async (req, res) =>{
-    try{
+export const getCropOptions = async (req, res) => {
+    try {
 
         const growthStage = Crop.schema.path("growthStage").enumValues;
 
@@ -193,7 +268,7 @@ export const getCropOptions = async (req, res) =>{
             season
         });
     }
-    catch(error){
+    catch (error) {
         console.error("get crop option error:", error.message);
 
         res.status(500).json({

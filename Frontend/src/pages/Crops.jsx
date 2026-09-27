@@ -15,6 +15,7 @@ const Crops = () => {
     const [formData, setFormData] = useState({
         cropName: "",
         variety: "",
+        area:"",
         sowingDate: "",
         season: "Kharif",
         growthStage: "Seedling",
@@ -121,6 +122,7 @@ const Crops = () => {
             setFormData({
                 cropName: "",
                 variety: "",
+                area:"",
                 sowingDate: "",
                 season: "Kharif",
                 growthStage: "Seedling",
@@ -150,6 +152,7 @@ const Crops = () => {
         setFormData({
             cropName: crop.cropName || "",
             variety: crop.variety || "",
+            area:crop.area || "",
             sowingDate: crop.sowingDate
                 ? crop.sowingDate.substring(0, 10)
                 : "",
@@ -236,6 +239,7 @@ const Crops = () => {
                         setFormData({
                             cropName: "",
                             variety: "",
+                            area:"",
                             sowingDate: "",
                             season: "Kharif",
                             growthStage: "Seedling",
@@ -290,6 +294,20 @@ const Crops = () => {
                                 />
                             </div>
 
+                            <div className="form-group">
+                                <label> Crop Area (acres) </label>
+
+                                <input
+                                    type="number"
+                                    name="area"
+                                    placeholder="Enter crop area"
+                                    value={formData.area}
+                                    onChange={handleChange}
+                                    min="0"
+                                    step="0.01"
+                                    required
+                                />
+                            </div>
 
                             <div className="form-group">
                                 <label>Sowing Date</label>
@@ -456,6 +474,11 @@ const Crops = () => {
                         <p>
                             <strong>Variety:</strong>{" "}
                             {crop.variety}
+                        </p>
+
+                        <p>
+                            <strong>Area:</strong>{" "}
+                            {crop.area}
                         </p>
 
                         <p>
