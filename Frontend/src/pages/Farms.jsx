@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import api from "../services/api";
 import "./Farms.css";
 
 const Farms = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
+    // const editFarmId = location.state?.editFarmId;
 
     const [farms, setFarms] = useState([]);
     const [showForm, setShowForm] = useState(false);
@@ -146,6 +148,29 @@ const Farms = () => {
 
         setShowForm(true);
     };
+
+    useEffect(() => {
+
+        const editFarmId = location.state?.editFarmId;
+
+        if (!editFarmId || farms.length === 0) {
+            return;
+        }
+
+        const farmToEdit = farms.find(
+            farm => farm._id === editFarmId
+        );
+
+        if (farmToEdit) {
+            handleEdit(farmToEdit);
+        }
+
+        navigate("/farms", {
+            replace: true,
+            state: null
+        });
+
+    }, [farms, location.state]);
 
     return (
         <div className="farms-page">

@@ -59,6 +59,19 @@ const FarmDetails = () => {
 
     }, [farmId]);
 
+    const totalArea = Number(farm?.area || 0);
+
+    const usedArea = crops.reduce(
+        (total, crop) => {
+            return total + Number(crop.area || 0);
+        },
+        0
+    );
+
+    const availableArea = Math.max(
+        totalArea - usedArea,
+        0
+    );
 
     if (loading) {
         return (
@@ -154,9 +167,7 @@ const FarmDetails = () => {
 
                     <div className="info-item">
 
-                        <span>
-                            📐 Area
-                        </span>
+                        <span> 📐 Area </span>
 
                         <strong>
                             {farm.area} acres
@@ -164,6 +175,26 @@ const FarmDetails = () => {
 
                     </div>
 
+                    <div className="info-item">
+                        <span>
+                            🌱 Used Area
+                        </span>
+
+                        <strong>
+                            {usedArea} acres
+                        </strong>
+                    </div>
+
+
+                    <div className="info-item">
+                        <span>
+                            ✅ Available Area
+                        </span>
+
+                        <strong>
+                            {availableArea} acres
+                        </strong>
+                    </div>
 
                     <div className="info-item">
 
@@ -194,7 +225,7 @@ const FarmDetails = () => {
                     <div className="info-item">
 
                         <span>
-                            🌾 Crops
+                            🌾 Total Crops
                         </span>
 
                         <strong>
@@ -205,14 +236,66 @@ const FarmDetails = () => {
 
                 </div>
 
+                <div className="area-progress">
+
+                    <div className="area-progress-header">
+
+                        <div>
+                            <strong>
+                                Farm Area Usage
+                            </strong>
+
+                            <span>
+                                {usedArea} / {totalArea} acres used
+                            </span>
+                        </div>
+
+                        <strong>
+                            {totalArea > 0
+                                ? Math.min(
+                                    Math.round(
+                                        (usedArea / totalArea) * 100
+                                    ),
+                                    100
+                                )
+                                : 0
+                            }%
+                        </strong>
+
+                    </div>
+
+
+                    <div className="progress-bar">
+
+                        <div
+                            className="progress-fill"
+                            style={{
+                                width: `${totalArea > 0
+                                    ? Math.min(
+                                        (usedArea / totalArea) * 100,
+                                        100
+                                    )
+                                    : 0
+                                    }%`
+                            }}
+                        />
+
+                    </div>
+
+                </div>
+
 
                 <div className="farm-actions">
 
                     <button
                         className="edit-farm-btn"
-                        onClick={() => navigate("/farms")}
+                        onClick={() => navigate("/farms", {
+                            state: {
+                                editFarmId: farmId
+                            }
+                        })}
                     >
-                        ✏️ Edit Farm
+                        ✏️ Go To Edit Farm
                     </button>
 
                     <button
@@ -322,9 +405,9 @@ const FarmDetails = () => {
 
                                 <p>
                                     <strong>
-                                        Area:
+                                        Crop Area:
                                     </strong>{" "}
-                                    {crop.area}
+                                    {crop.area || 0} acres
                                 </p>
 
                                 <p>
@@ -345,10 +428,37 @@ const FarmDetails = () => {
                                     <strong>
                                         Sowing:
                                     </strong>{" "}
-                                    {new Date(
-                                        crop.sowingDate
-                                    ).toLocaleDateString()}
+                                    {crop.sowingDate
+                                        ? new Date(
+                                            crop.sowingDate
+                                        ).toLocaleDateString()
+                                        : "N/A"
+                                    }
+
                                 </p>
+
+                                <p>
+                                    <strong>
+                                        Expected Harvest:
+                                    </strong>{" "}
+                                    {crop.expectedHarvestDate
+                                        ? new Date(
+                                            crop.expectedHarvestDate
+                                        ).toLocaleDateString()
+                                        : "N/A"
+                                    }
+                                </p>
+
+                                <button
+                                    className="view-crop-btn"
+                                    onClick={() =>
+                                        navigate(
+                                            `/farms/${farmId}/crops`
+                                        )
+                                    }
+                                >
+                                    View / Edit Crop
+                                </button>
 
                             </div>
 
